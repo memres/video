@@ -65,6 +65,7 @@ $l10n = array(
 	'no' => 'Hayır',
 	'video' => 'Video',
 	'audio' => 'Ses',
+	'embed' => 'Gömü',
 	'year' => 'Yıl',
 	'month' => 'Ay',
 	'week' => 'Hafta',
