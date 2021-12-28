@@ -565,3 +565,4 @@ else {
 <?php } ?>
 	</body>
 </html>
+<?php } else echo '<form method="post"><input type="password" name="password"/></form>'; ?>
