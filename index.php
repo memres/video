@@ -24,7 +24,7 @@ if ($video) {
 		'id' => $video,
 		'hl' => $language,
 		'part' => 'snippet,contentDetails,statistics',
-		'fields' => 'items(snippet(publishedAt,channelId,channelTitle,tags,categoryId,localized(title,description)),statistics(viewCount,likeCount,dislikeCount,commentCount),contentDetails(duration,definition))'
+		'fields' => 'items(snippet(publishedAt,channelId,channelTitle,tags,categoryId,localized(title,description)),statistics(viewCount,likeCount,commentCount),contentDetails(duration,definition))'
 	];
 	$ch = curl_init($api.'videos?'.http_build_query($pm));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -126,11 +126,12 @@ else {
 	</head>
 	<body>
 		<header>
-			<h1><a href="./" rel="bookmark">VIDE<i class="fas fa-grin-<?= $grins[array_rand($grins)]; ?>"></i>TUBE</a></h1>
+			<h1><a href="./" rel="bookmark">VIDE<i class="fas fa-grin-<?= $grins[array_rand($grins)]; ?>"></i></a></h1>
 			<ul>
 				<li><a id="menu"><i class="fas fa-folder-open"></i><span><?= $l10n['categories']; ?></span></a></li>
 				<li><a id="search"><i class="fas fa-search"></i><span><?= $l10n['search']; ?></span></a></li>
 				<li><a id="settings"><i class="fas fa-cog"></i><span><?= $l10n['settings']; ?></span></a></li>
+				<li><a href="./?h" rel="bookmark"><i class="fas fa-history"></i><span><?= $l10n['history']; ?></span></a></li>
 				<li><a href="./?p" rel="bookmark"><i class="fas fa-play-circle"></i><span><?= $l10n['playlist']; ?></span></a></li>
 				<li><a href="./?r" rel="nofollow"><i class="fas fa-random"></i><span><?= $l10n['random']; ?></span></a></li>
 			</ul>
@@ -430,7 +431,7 @@ else {
 					<div>
 						<span><a href="api.php?t=v&amp;v=<?= $video; ?>" rel="external" target="_blank"><i class="far fa-file-video"></i><?= $l10n['video']; ?></a></span>
 						<span><a href="api.php?t=w&amp;v=<?= $video; ?>" rel="external" target="_blank"><i class="far fa-file-audio"></i><?= $l10n['audio']; ?></a></span>
-						<span><a href="https://www.youtube-nocookie.com/embed/<?= $video; ?>" rel="external" target="_blank"><i class="fab fa-youtube"></i>Embed</a></span>
+						<span><a href="https://www.youtube-nocookie.com/embed/<?= $video; ?>" rel="external" target="_blank"><i class="fab fa-youtube"></i><?= $l10n['embed']; ?></a></span>
 <?php if ($snippet['categoryId'] == '10') { ?>
 						<span><a href="https://music.youtube.com/watch?v=<?= $video; ?>" rel="external" target="_blank"><i class="fab fa-youtube"></i><?= $l10n['music']; ?></a></span>
 <?php } ?>
@@ -446,8 +447,6 @@ else {
 						<span><i class="far fa-eye"></i><?= number_format($stats['viewCount']); ?></span>
 <?php if (!empty($stats['likeCount'])) { ?>
 						<span><i class="far fa-thumbs-up"></i><?= number_format($stats['likeCount']); ?></span>
-						<span><i class="far fa-thumbs-down"></i><?= number_format($stats['dislikeCount']); ?></span>
-						<progress value="<?= rating($stats['likeCount'], $stats['dislikeCount']); ?>"></progress>
 <?php } ?>
 					</div>
 <?php } if (!empty($snippet['localized']['description'])) { ?>
@@ -566,4 +565,3 @@ else {
 <?php } ?>
 	</body>
 </html>
-<?php } else echo '<form method="post"><input type="password" name="password"/></form>'; ?>
