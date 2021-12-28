@@ -1,7 +1,7 @@
 <?php
 if (isset($_COOKIE['heroku']) || $_POST['password'] == 'mesvideo') { if (!isset($_COOKIE['heroku'])) setcookie('heroku', true);
 include('functions.php');
-$title = 'VideoTube';
+$title = 'Video';
 $description = 'Watch ad-free YouTube videos.';
 $grins = ['alt', 'beam', 'hearts', 'squint', 'stars'];
 $ok = $channel = null;
