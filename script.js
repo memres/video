@@ -354,13 +354,13 @@ $(document).ready(function() {
 					events: {
 						'onReady': function() {
 							if ($('.playlist').length) listize('playlist');
-							player.cueVideoById({videoId: ($('h5').length ? $('h5 b').attr('id') : $('article').first().children('b').attr('id')), startSeconds: (Cookies.get('save_history') && $('h5').length && RegExp($('h5 b').attr('id')).test(localStorage.getItem('history')) ? timer() : 0)});
-							if (Cookies.get('auto_start')) player.playVideo();
+							if (Cookies.get('auto_start')) player.loadVideoById({videoId: ($('h5').length ? $('h5 b').attr('id') : $('article').first().children('b').attr('id')), startSeconds: (Cookies.get('save_history') && $('h5').length && RegExp($('h5 b').attr('id')).test(localStorage.getItem('history')) ? timer() : 0)});
+							else player.cueVideoById({videoId: ($('h5').length ? $('h5 b').attr('id') : $('article').first().children('b').attr('id')), startSeconds: (Cookies.get('save_history') && $('h5').length && RegExp($('h5 b').attr('id')).test(localStorage.getItem('history')) ? timer() : 0)});
 						},
 						'onStateChange': function(e) {
 							if ($('.playlist').length) {
 								if (e.data == 0) {
-									if ($('.fa-history').length) player.playVideo();
+									if ($('.loop .fa-history').length) player.playVideo();
 									else forward();
 								}
 								if (e.data == 1) iconize('pause');
@@ -373,7 +373,9 @@ $(document).ready(function() {
 								$('#'+player.getVideoData().video_id).parent().fadeOut();
 								forward();
 							}
-							else $('figure').html('<video poster="https://i.ytimg.com/vi/'+$('h5 b').attr('id')+'/hqdefault.jpg" src="go.php?t=v&v='+$('h5 b').attr('id')+'" id="player" controls autoplay></video>');
+							/*
+							else $('figure').html('<video poster="https://i.ytimg.com/vi/'+$('h5 b').attr('id')+'/hqdefault.jpg" src="go.php?t=v&v='+$('h5 b').attr('id')+'" id="player" controls'+(Cookies.get('auto_start')?' autoplay':'')+(Cookies.get('infinite_playback')?' onended="random()"':'')+'></video>');
+							*/
 						}
 					}
 				});
