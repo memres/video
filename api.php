@@ -17,7 +17,7 @@ if (isset($_SERVER['HTTP_REFERER']) && parse_url($_SERVER['HTTP_REFERER'], PHP_U
 		else $url .= "18&id=$v";
 	}
 	if ($t == 'w') {
-		if ($dom->getElementsByTagName('a')->item(5)) $url = $dom->getElementsByTagName('a')->item(5)->attributes->getNamedItem('href')->value;
+		if ($dom->getElementsByTagName('a')->item(8)) $url = $dom->getElementsByTagName('a')->item(8)->attributes->getNamedItem('href')->value;
 		else $url .= "251&id=$v";
 	}
 	header('Location: https:'.preg_replace('/^https:/', '', $url));
