@@ -297,7 +297,7 @@ $(document).ready(function() {
 	}
 	function calculate(d) {
 		let h = ~~(d / 3600), m = ~~(d % 3600 / 60), s = ~~(d % 3600 % 60);
-		return (h ? h+':' : '')+m+':'+(s < 10 ? '0'+s : s);
+		return (h ? h+':' : '')+(h && m < 10 ? '0'+m : m)+':'+(s < 10 ? '0'+s : s);
 	}
 	function timer() {
 		let a = localStorage.getItem('history').split($('h5 b').attr('id')), b = a[1].split('ဇ፨ჲ'), c = b[0].split('ჲ፨ဇ');
