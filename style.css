@@ -423,16 +423,13 @@ footer i {
 figure {
 	margin: 0;
 }
-#player, figcaption {
+#player {
 	position: absolute;
 	width: 100%;
 }
 #player {
 	height: 100%;
 	background-color: #000;
-}
-figcaption {
-	height: calc(100% - 50px);
 }
 legend {
 	padding: 0;
