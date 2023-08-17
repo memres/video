@@ -6,47 +6,46 @@ $api = 'https://www.googleapis.com/youtube/v3/';
 $pm = $pms = ['prettyPrint' => 'false', 'key' => 'AIzaSyA-dlBUjVQeuc4a6ZN4RkNUYDFddrVLxrA'];
 $safe = isset($_COOKIE['safe_search']) ? 'strict' : 'none';
 function country() {
-	$gl = isset($_SERVER['HTTP_CF_IPCOUNTRY']) ? $_SERVER['HTTP_CF_IPCOUNTRY'] : 'WS';
-	if (!in_array($gl, ['WS', 'AE', 'AR', 'AU', 'AZ', 'AT', 'BA', 'BD', 'BE', 'BG', 'BH', 'BO', 'BR', 'BY', 'CA', 'CH', 'CL', 'CN', 'CO', 'CR', 'CY', 'CZ', 'DE', 'DK', 'DO', 'DZ', 'EC', 'EE', 'EG', 'ES', 'FI', 'FR', 'GB', 'GE', 'GH', 'GR', 'GT', 'HK', 'HN', 'HR', 'HU', 'ID', 'IE', 'IL', 'IN', 'IQ', 'IS', 'IT', 'JO', 'JM', 'JP', 'KE', 'KR', 'KW', 'KZ', 'LB', 'LI', 'LK', 'LT', 'LU', 'LV', 'LY', 'OM', 'MA', 'ME', 'MK', 'MT', 'MX', 'MY', 'NG', 'NI', 'NL', 'NO', 'NP', 'NZ', 'PA', 'PE', 'PG', 'PH', 'PK', 'PL', 'PR', 'PT', 'PY', 'QA', 'RO', 'RS', 'SA', 'SE', 'SG', 'SI', 'SK', 'SN', 'SV', 'RU', 'TH', 'TN', 'TR', 'TW', 'TZ', 'UA', 'UG', 'US', 'UY', 'VE', 'VN', 'YE', 'ZA', 'ZW'])) $gl = 'WS';
+	$gl = isset($_SERVER['HTTP_CF_IPCOUNTRY']) ? $_SERVER['HTTP_CF_IPCOUNTRY'] : 'TR';
+	if (!in_array($gl, ['YT', 'AE', 'AR', 'AU', 'AZ', 'AT', 'BA', 'BD', 'BE', 'BG', 'BH', 'BO', 'BR', 'BY', 'CA', 'CH', 'CL', 'CN', 'CO', 'CR', 'CY', 'CZ', 'DE', 'DK', 'DO', 'DZ', 'EC', 'EE', 'EG', 'ES', 'FI', 'FR', 'GB', 'GE', 'GH', 'GR', 'GT', 'HK', 'HN', 'HR', 'HU', 'ID', 'IE', 'IL', 'IN', 'IQ', 'IS', 'IT', 'JO', 'JM', 'JP', 'KE', 'KR', 'KW', 'KZ', 'LB', 'LI', 'LK', 'LT', 'LU', 'LV', 'LY', 'OM', 'MA', 'ME', 'MK', 'MT', 'MX', 'MY', 'NG', 'NI', 'NL', 'NO', 'NP', 'NZ', 'PA', 'PE', 'PG', 'PH', 'PK', 'PL', 'PR', 'PT', 'PY', 'QA', 'RO', 'RS', 'SA', 'SE', 'SG', 'SI', 'SK', 'SN', 'SV', 'RU', 'TH', 'TN', 'TR', 'TW', 'TZ', 'UA', 'UG', 'US', 'UY', 'VE', 'VN', 'YE', 'ZA', 'ZW'])) $gl = 'YT';
 	setcookie('country', $gl, time() + 86400 * 365);
 	return $gl;
 }
 function language($gl) {
-	$hl = 'en';
-	// <option value="as">অসমীয়া</option> Assamese -> Assamca tercümesi bekleniyor
+	$hl = 'tr';
 	if (in_array($gl, ['AZ', 'BG', 'ES', 'FI', 'HR', 'ID', 'IT', 'IS', 'LV', 'LT', 'HU', 'MK', 'NO', 'PL', 'RO', 'RU', 'SK', 'TH', 'TR'])) $hl = strtolower($gl);
-	if (in_array($gl, ['AR', 'BO', 'CL', 'CO', 'CR', 'DO', 'EC', 'GT', 'HN', 'MX', 'NI', 'PA', 'PE', 'PR', 'PY', 'SV', 'UY', 'VE'])) $hl = 'es';#İspanyolca
-	if (in_array($gl, ['AE', 'BH', 'DZ', 'EG', 'IQ', 'JO', 'KW', 'LB', 'LY', 'MA', 'OM', 'QA', 'SA', 'TN', 'YE'])) $hl = 'ar';#Arapça
-	// if (in_array($gl, ['au', 'ca', 'gb', 'gh', 'ie', 'jm', 'mt', 'ng', 'nz', 'pg', 'sg', 'us', 'ws'])) $hl = 'en';#İngilizce
-	if (in_array($gl, ['AT', 'CH', 'DE', 'LI'])) $hl = 'de';#Almanca
-	if (in_array($gl, ['FR', 'LU', 'SN'])) $hl = 'fr';#Fransızca
+	if (in_array($gl, ['AR', 'BO', 'CL', 'CO', 'CR', 'DO', 'EC', 'GT', 'HN', 'MX', 'NI', 'PA', 'PE', 'PR', 'PY', 'SV', 'UY', 'VE'])) $hl = 'es';#Spanish
+	if (in_array($gl, ['AE', 'BH', 'DZ', 'EG', 'IQ', 'JO', 'KW', 'LB', 'LY', 'MA', 'OM', 'QA', 'SA', 'TN', 'YE'])) $hl = 'ar';#Arabic
+	// if (in_array($gl, ['au', 'ca', 'gb', 'gh', 'ie', 'jm', 'mt', 'ng', 'nz', 'pg', 'sg', 'us', 'yt'])) $hl = 'en';#English
+	if (in_array($gl, ['AT', 'CH', 'DE', 'LI'])) $hl = 'de';#German
+	if (in_array($gl, ['FR', 'LU', 'SN'])) $hl = 'fr';#French
 	if (in_array($gl, ['KE', 'TZ', 'UG'])) $hl = 'sw';#Svahili
-	if (in_array($gl, ['BR', 'PT'])) $hl = 'pt';#Portekizce
-	if (in_array($gl, ['BE', 'NL'])) $hl = 'nl';#Flemenkçe
-	if (in_array($gl, ['CN', 'HK'])) $hl = 'zh-CN';#Çince
-	if (in_array($gl, ['CY', 'GR'])) $hl = 'el';#Yunanca
-	if (in_array($gl, ['ME', 'RS'])) $hl = 'sr';#Sırpça
-	if ($gl == 'BA') $hl = 'bs';#Boşnakça
-	if ($gl == 'CZ') $hl = 'cs';#Çekçe
-	if ($gl == 'DK') $hl = 'da';#Danca
-	if ($gl == 'EE') $hl = 'et';#Estonca
-	if ($gl == 'PH') $hl = 'fil';#Filipince
-	if ($gl == 'ZA') $hl = 'zu';#Zuluca
-	if ($gl == 'SE') $hl = 'sv';#İsveççe
-	if ($gl == 'VN') $hl = 'vi';#Vietnamca
-	if ($gl == 'BY') $hl = 'be';#Belarusça
-	if ($gl == 'KZ') $hl = 'kk';#Kazakça
-	if ($gl == 'UA') $hl = 'uk';#Ukraynaca
-	if ($gl == 'GE') $hl = 'ka';#Gürcüce
-	if ($gl == 'IL') $hl = 'iw';#İbranice
-	if ($gl == 'PK') $hl = 'ur';#Urduca
-	if ($gl == 'IN') $hl = 'hi';#Hintçe
-	if ($gl == 'NP') $hl = 'ne';#Nepalce
-	if ($gl == 'BD') $hl = 'bn';#Bengalce
-	if ($gl == 'LK') $hl = 'si';#Seylanca
-	if ($gl == 'KR') $hl = 'ko';#Korece
-	if ($gl == 'JP') $hl = 'ja';#Japonca
-	if ($gl == 'TW') $hl = 'zh-TW';#Geleneksel Çince
+	if (in_array($gl, ['BR', 'PT'])) $hl = 'pt';#Portuguese
+	if (in_array($gl, ['BE', 'NL'])) $hl = 'nl';#Dutch
+	if (in_array($gl, ['CN', 'HK'])) $hl = 'zh-CN';#Chinese
+	if (in_array($gl, ['CY', 'GR'])) $hl = 'el';#Greek
+	if (in_array($gl, ['ME', 'RS'])) $hl = 'sr';#Serbian
+	if ($gl == 'BA') $hl = 'bs';#Bosnian
+	if ($gl == 'CZ') $hl = 'cs';#Czech
+	if ($gl == 'DK') $hl = 'da';#Danish
+	if ($gl == 'EE') $hl = 'et';#Estonian
+	if ($gl == 'PH') $hl = 'fil';#Filipino
+	if ($gl == 'ZA') $hl = 'zu';#Zulu
+	if ($gl == 'SE') $hl = 'sv';#Swedish
+	if ($gl == 'VN') $hl = 'vi';#Vietnamese
+	if ($gl == 'BY') $hl = 'be';#Belarusian
+	if ($gl == 'KZ') $hl = 'kk';#Kazakh
+	if ($gl == 'UA') $hl = 'uk';#Ukrainian
+	if ($gl == 'GE') $hl = 'ka';#Georgian
+	if ($gl == 'IL') $hl = 'iw';#Hebrew
+	if ($gl == 'PK') $hl = 'ur';#Urdu
+	if ($gl == 'IN') $hl = 'hi';#Hindi
+	if ($gl == 'NP') $hl = 'ne';#Nepali
+	if ($gl == 'BD') $hl = 'bn';#Bengali
+	if ($gl == 'LK') $hl = 'si';#Ceylon
+	if ($gl == 'KR') $hl = 'ko';#Korean
+	if ($gl == 'JP') $hl = 'ja';#Japanese
+	if ($gl == 'TW') $hl = 'zh-TW';#Traditional Chinese (Taiwan)
 	setcookie('language', $hl, time() + 86400 * 365);
 	return $hl;
 }
