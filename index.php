@@ -1,5 +1,15 @@
 <?php
-if (isset($_COOKIE['heroku']) || $_POST['password'] == 'mesvideo') { if (!isset($_COOKIE['heroku'])) setcookie('heroku', true);
+if (isset($_GET['r']) ? 1 : null) {
+	$ch = curl_init('https://api-piped.mha.fi/streams/'.(!empty($_COOKIE['random']) ? $_COOKIE['random'] : '7LJIcrJKDI0'));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)');
+	$result = curl_exec($ch);
+	curl_close($ch);
+	$json = json_decode($result, true);
+	header('Location: '.str_replace('/watch', '', $json['relatedStreams'][mt_rand(0, count($json['relatedStreams']) - 1)]['url']));
+	exit;
+}
 include('functions.php');
 $title = 'Video';
 $description = 'Watch ad-free YouTube videos.';
@@ -56,26 +66,20 @@ else {
 		'part' => 'snippet',
 		'fields' => 'nextPageToken,prevPageToken,items(id)'
 	];
-	$random = isset($_GET['r']) ? 1 : null;
-	$search = $random || $query || $length || $date || $hd || $d3 || $live || $caption || $cat && in_array($cat, [19, 22, 25, 27, 29]) || $user || $country == 'WS' ? 1 : null;
-	if ($search) {
-		$pm += ['type' => 'video', 'relevanceLanguage' => $language];
-		if ($random) $pm['relatedToVideoId'] = !empty($_COOKIE['random']) ? $_COOKIE['random'] : '7LJIcrJKDI0';
-		else {
-			$pm += ['videoEmbeddable' => 'true', 'safeSearch' => $safe];
-			if ($user) $pm['channelId'] = $user;
-			if ($order) $pm['order'] = in_array($order, ['viewCount', 'date', 'rating', 'title']) ? $order : 'relevance';
-			if ($query) $pm['q'] = $query;
-			if ($length) $pm['videoDuration'] = in_array($length, ['long', 'short', 'medium']) ? $length : 'any';
-			if ($date) {
-				$pst = new DateTime('-1 '.(in_array($date, ['hour', 'day', 'week', 'month', 'year']) ? $date : 'year'), new DateTimeZone('America/Los_Angeles'));
-				$pm['publishedAfter'] = $pst->format('Y-m-d\TH:i:s\Z');
-			}
-			if ($hd) $pm['videoDefinition'] = 'high';
-			if ($d3) $pm['videoDimension'] = '3d';
-			if ($live) $pm['eventType'] = 'live';
-			if ($caption) $pm['videoCaption'] = 'closedCaption';
+	if ($search = $query || $length || $date || $hd || $d3 || $live || $caption || $cat && in_array($cat, [19, 22, 25, 27, 29]) || $user || $country == 'YT' ? 1 : null) {
+		$pm += ['type' => 'video', 'videoEmbeddable' => 'true', 'videoSyndicated' => 'true', 'relevanceLanguage' => $language, 'safeSearch' => $safe];
+		if ($user) $pm['channelId'] = $user;
+		if ($order) $pm['order'] = in_array($order, ['viewCount', 'date', 'rating', 'title']) ? $order : 'relevance';
+		if ($query) $pm['q'] = $query;
+		if ($length) $pm['videoDuration'] = in_array($length, ['long', 'short', 'medium']) ? $length : 'any';
+		if ($date) {
+			$pst = new DateTime('-1 '.(in_array($date, ['hour', 'day', 'week', 'month', 'year']) ? $date : 'year'), new DateTimeZone('America/Los_Angeles'));
+			$pm['publishedAfter'] = $pst->format('Y-m-d\TH:i:s\Z');
 		}
+		if ($hd) $pm['videoDefinition'] = 'high';
+		if ($d3) $pm['videoDimension'] = '3d';
+		if ($live) $pm['eventType'] = 'live';
+		if ($caption) $pm['videoCaption'] = 'closedCaption';
 	}
 	else $pm['chart'] = 'mostPopular';
 	$ch = curl_init($api.($search ? 'search?' : 'videos?').http_build_query($pm));
@@ -84,10 +88,6 @@ else {
 	$result = curl_exec($ch);
 	curl_close($ch);
 	$json = json_decode($result, true);
-	if ($random) {
-		header('Location: ?v='.$json['items'][mt_rand(0, count($json['items']) - 1)]['id']['videoId']);
-		exit;
-	}
 	if (!empty($json['items'])) {
 		$ok = true;
 		$next = !empty($json['nextPageToken']) ? $json['nextPageToken'] : null;
@@ -220,7 +220,7 @@ else {
 			<div>
 				<label><?= $l10n['country']; ?>:</label>
 				<select name="country" rel="alternate">
-					<option value="WS"><?= $l10n['worldwide']; ?> &#x1F5FA;</option>
+					<option value="YT"><?= $l10n['worldwide']; ?> &#x1F5FA;</option>
 					<option value="AR">Argentina</option>
 					<option value="AU">Australia</option>
 					<option value="AZ">Azərbaycan</option>
@@ -416,7 +416,6 @@ else {
 <?php if ($ok) { if ($video) { ?>
 				<figure>
 					<div id="player"></div>
-					<figcaption></figcaption>
 				</figure>
 				<ol>
 					<li><b id="info" class="on"><i class="fas fa-bullhorn"></i></b></li>
@@ -429,11 +428,10 @@ else {
 					<h5><a href="./?u=<?= $snippet['channelId']; ?>" rel="bookmark"><?= $snippet['channelTitle']; ?></a><b id="<?= $video; ?>"><i class="fas fa-plus-circle"></i></b></h5>
 <?php if ($content['duration'] != 'P0D') { ?>
 					<div>
-						<span><a href="api.php?t=v&amp;v=<?= $video; ?>" rel="external" target="_blank"><i class="far fa-file-video"></i><?= $l10n['video']; ?></a></span>
-						<span><a href="api.php?t=w&amp;v=<?= $video; ?>" rel="external" target="_blank"><i class="far fa-file-audio"></i><?= $l10n['audio']; ?></a></span>
-						<span><a href="https://www.youtube-nocookie.com/embed/<?= $video; ?>" rel="external" target="_blank"><i class="fab fa-youtube"></i><?= $l10n['embed']; ?></a></span>
+						<span><a href="api.php?v=<?= $video; ?>" rel="external" target="_blank"><i class="far fa-file-video"></i><?= $l10n['video']; ?></a></span>
+						<span><a href="api.php?v=<?= $video; ?>&amp;a" rel="external" target="_blank"><i class="far fa-file-audio"></i><?= $l10n['audio']; ?></a></span>
 <?php if ($snippet['categoryId'] == '10') { ?>
-						<span><a href="https://music.youtube.com/watch?v=<?= $video; ?>" rel="external" target="_blank"><i class="fab fa-youtube"></i><?= $l10n['music']; ?></a></span>
+						<span><a href="https://music.youtube.com/watch?v=<?= $video; ?>" rel="external" target="_blank"><i class="fas fa-headphones-alt"></i><?= $l10n['music']; ?></a></span>
 <?php } ?>
 					</div>
 <?php } ?>
@@ -463,7 +461,6 @@ else {
 <?php } else { ?>
 				<figure>
 					<div id="player"></div>
-					<figcaption></figcaption>
 				</figure>
 				<ol>
 					<li><em class="backward"><i class="fas fa-step-backward"></i></em></li>
@@ -524,13 +521,13 @@ else {
 					}
 				?></h3>
 <?php } ?>
-				<img class="counter" alt="<?= $_SERVER['HTTP_REFERER']; ?>"/>
+				<img class="counter" alt="<?= !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null; ?>"/>
 			</div>
 		</main>
 		<footer>
 			<div><i class="fas fa-keyboard"></i></div>
 			<div><i class="fas fa-chevron-up"></i></div>
-			<div><a href="https://github.com/memres/video" rel="external"><i class="fab fa-github"></i></a></div>
+			<div><a href="https://piped.video/" rel="external"><i class="fab fa-pied-piper-hat"></i></a></div>
 		</footer>
 		<kbd>
 			<i class="fas fa-times-circle fa-2x"></i>
@@ -552,12 +549,12 @@ else {
 				<li><b>Esc</b> Exit Modal</li>
 			</ul>
 		</kbd>
-		<script src="https://www.youtube.com/iframe_api" async></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 		<script src="script.js"></script>
+		<script src="https://www.youtube.com/iframe_api" async></script>
 <?php if (isset($_SERVER['HTTP_CF_IPCOUNTRY'])) { ?>
 		<script>var sc_invisible=1,sc_project=5408945,sc_security="f75ba4c3";window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-28085788-1","auto"),ga("send","pageview");</script>
 		<script src="https://statcounter.com/counter/counter.js"></script>
@@ -565,4 +562,3 @@ else {
 <?php } ?>
 	</body>
 </html>
-<?php } else echo '<form method="post"><input type="password" name="password"/></form>'; ?>
