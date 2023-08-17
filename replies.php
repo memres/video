@@ -10,7 +10,6 @@ if (isset($_SERVER['HTTP_REFERER']) && parse_url($_SERVER['HTTP_REFERER'], PHP_U
 		'pageToken' => !empty($_GET['token']) ? $_GET['token'] : null
 	);
 	$ch = curl_init($api.'comments?'.http_build_query($pm));
-	curl_setopt($ch, CURLOPT_REFERER, $ref);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 	$result = curl_exec($ch);
