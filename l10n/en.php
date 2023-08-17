@@ -66,6 +66,7 @@ $l10n = array(
 	'video' => 'Video',
 	'audio' => 'Audio',
 	'embed' => 'Embed',
+	'alt' => 'Alternative',
 	'year' => 'Year',
 	'month' => 'Month',
 	'week' => 'Week',
