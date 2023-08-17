@@ -171,7 +171,6 @@ $(document).ready(function() {
 	$(document).on('click', '.forward', forward);
 	$(document).on('click', '.backward', backward);
 	$(document).on('click', '.shuffle', shuffle);
-	$(document).on('click', 'figcaption', playpause);
 	$(document).on('click', 'time', function() {
 		let e = $(this).attr('data-elapsed');
 		$(this).text($(this).text() == e ? $(this).attr('datetime') : e);
@@ -373,9 +372,7 @@ $(document).ready(function() {
 								$('#'+player.getVideoData().video_id).parent().fadeOut();
 								forward();
 							}
-							/*
-							else $('figure').html('<video poster="https://i.ytimg.com/vi/'+$('h5 b').attr('id')+'/hqdefault.jpg" src="go.php?t=v&v='+$('h5 b').attr('id')+'" id="player" controls'+(Cookies.get('auto_start')?' autoplay':'')+(Cookies.get('infinite_playback')?' onended="random()"':'')+'></video>');
-							*/
+							else $('.info div:first').append('<span><a href="https://youtu.be/'+$('h5 b').attr('id')+'" target="_blank"><i class="fab fa-youtube"></i>YouTube</a></span>');
 						}
 					}
 				});
@@ -385,7 +382,6 @@ $(document).ready(function() {
 			Cookies.set('random', $('h5 b').attr('id'), {expires: 365, path: folder});
 			if (Cookies.get('playlist')) $('h5 b').each(checkplus);
 			if ($('.info p').length) $('.info p').each(clamp);
-			if (mobile) $('figcaption').remove();
 		}
 		if ($('article').length) {
 			Cookies.set('random', $('article').eq(Math.floor(Math.random() * ($('article').length - 1))).children('b').attr('id'), {expires: 365, path: folder});
