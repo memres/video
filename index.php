@@ -109,7 +109,7 @@ else {
 	<head>
 		<meta charset="utf-8"/>
 		<meta name="robots" content="noindex"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<title><?php titlize(); ?></title>
 		<meta name="description" content="<?php descize(); ?>"/>
 		<meta property="og:title" content="<?php titlize(); ?>"/>
@@ -120,7 +120,7 @@ else {
 		<meta name="theme-color" content="#282828"/>
 		<link rel="icon" href="favicon.ico"/>
 		<link rel="manifest" href="manifest.json"/>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700|Cinzel:700&amp;subset=latin-ext"/>
 		<link rel="stylesheet" href="style.css"/>
 	</head>

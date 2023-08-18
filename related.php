@@ -7,16 +7,15 @@ if (isset($_SERVER['HTTP_REFERER']) && parse_url($_SERVER['HTTP_REFERER'], PHP_U
 	$result = curl_exec($ch);
 	curl_close($ch);
 	$json = json_decode($result, true);
-	//$json = json_decode(file_get_contents('https://api-piped.mha.fi/streams/'.$_GET['id']), true);
 	if (empty($json['relatedStreams'])) echo "\n";
 	else {
 		foreach ($json['relatedStreams'] as $item) {
-			$h = floor($item['duration'] / 3600);
-			$m = floor(($item['duration'] - $h * 3600) / 60);
-			$s = $item['duration'] - ($h * 3600 + $m * 60);
-			$m = ($m < 10 ? '0'.$m : ''.$m);
-			$s = ($s < 10 ? '0'.$s : ''.$s);
 			if (strpos($item['url'], $_GET['id']) === false) {
+				$h = floor($item['duration'] / 3600);
+				$m = floor(($item['duration'] - $h * 3600) / 60);
+				$s = $item['duration'] - ($h * 3600 + $m * 60);
+				$m = ($m < 10 ? '0'.$m : ''.$m);
+				$s = ($s < 10 ? '0'.$s : ''.$s);
 ?>
 					<article>
 						<a href="?v=<?= $id = str_replace('/watch?v=', '', $item['url']); ?>">
