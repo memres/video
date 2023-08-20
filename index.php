@@ -1,5 +1,5 @@
 <?php
-if (isset($_GET['r']) ? 1 : null) {
+if (isset($_GET['r'])) {
 	$ch = curl_init('https://api-piped.mha.fi/streams/'.(!empty($_COOKIE['random']) ? $_COOKIE['random'] : '7LJIcrJKDI0'));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
@@ -7,7 +7,9 @@ if (isset($_GET['r']) ? 1 : null) {
 	$result = curl_exec($ch);
 	curl_close($ch);
 	$json = json_decode($result, true);
-	header('Location: '.str_replace('/watch', '', $json['relatedStreams'][mt_rand(0, count($json['relatedStreams']) - 1)]['url']));
+	$rand = mt_rand(0, count($json['relatedStreams']) - 1);
+	if ($json['relatedStreams'][$rand]['type'] != 'stream') $rand++;
+	header('Location: '.str_replace('/watch', '', $json['relatedStreams'][$rand]['url']));
 	exit;
 }
 include('functions.php');

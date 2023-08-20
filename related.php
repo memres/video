@@ -10,7 +10,7 @@ if (isset($_SERVER['HTTP_REFERER']) && parse_url($_SERVER['HTTP_REFERER'], PHP_U
 	if (empty($json['relatedStreams'])) echo "\n";
 	else {
 		foreach ($json['relatedStreams'] as $item) {
-			if (strpos($item['url'], $_GET['id']) === false) {
+			if ($item['type'] == 'stream') {
 				$h = floor($item['duration'] / 3600);
 				$m = floor(($item['duration'] - $h * 3600) / 60);
 				$s = $item['duration'] - ($h * 3600 + $m * 60);
