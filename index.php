@@ -431,10 +431,10 @@ else {
 					<h5><a href="./?u=<?= $snippet['channelId']; ?>" rel="bookmark"><?= $snippet['channelTitle']; ?></a><b id="<?= $video; ?>"><i class="fas fa-plus-circle"></i></b></h5>
 <?php if ($content['duration'] != 'P0D') { ?>
 					<div>
-						<span><a href="api.php?v=<?= $video; ?>" rel="external" target="_blank"><i class="far fa-file-video"></i><?= $l10n['video']; ?></a></span>
-						<span><a href="api.php?v=<?= $video; ?>&amp;a" rel="external" target="_blank"><i class="far fa-file-audio"></i><?= $l10n['audio']; ?></a></span>
+						<span><a href="api.php?v=<?= $video; ?>" rel="external"><i class="far fa-file-video"></i><?= $l10n['video']; ?></a></span>
+						<span><a href="api.php?v=<?= $video; ?>&amp;a" rel="external"><i class="far fa-file-audio"></i><?= $l10n['audio']; ?></a></span>
 <?php if ($snippet['categoryId'] == '10') { ?>
-						<span><a href="https://music.youtube.com/watch?v=<?= $video; ?>" rel="external" target="_blank"><i class="fas fa-headphones-alt"></i><?= $l10n['music']; ?></a></span>
+						<span><a href="https://music.youtube.com/watch?v=<?= $video; ?>" rel="external"><i class="fas fa-headphones-alt"></i><?= $l10n['music']; ?></a></span>
 <?php } ?>
 					</div>
 <?php } ?>

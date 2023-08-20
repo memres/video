@@ -372,7 +372,7 @@ $(document).ready(function() {
 								$('#'+player.getVideoData().video_id).parent().fadeOut();
 								forward();
 							}
-							else $('.info div:first').append('<span><a href="https://youtu.be/'+$('h5 b').attr('id')+'" target="_blank"><i class="fab fa-youtube"></i>YouTube</a></span>');
+							else $('.info div:first').append('<span><a href="https://youtu.be/'+$('h5 b').attr('id')+'" rel="external"><i class="fab fa-youtube"></i>YouTube</a></span>');
 						}
 					}
 				});
